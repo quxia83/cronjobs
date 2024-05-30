@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dev-environment-applications
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: 'https://github.com/quxia83/cronjobs.git'
+        revision: main
+        directories:
+          - path: overlay/dev/*
+  template:
+    metadata:
+      name: 'cronjobs-{{path.basename}}'
+    spec:
+      project: cronjobs
+      source:
+        repoURL: 'https://github.com/quxia83/cronjobs.git'
+        targetRevision: main
+        path: '{{path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: dev
+      syncPolicy:
+        automated:
+          selfHeal: true
+          prune: true
