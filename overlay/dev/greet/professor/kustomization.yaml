@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../../../base/greet
+
+configMapGenerator:
+  - name: greet-config
+    behavior: merge
+    envs:
+      - .env
+
+patches:
+  - target:
+      group: batch
+      version: v1beta1
+      kind: CronJob
+      name: greet-cronjob
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/command
+        value:
+          - /bin/sh
+          - -c
+          - |
+            echo "hello dev, greet ${NAME}, you are ${POSITION}"
+    patch: |-
+      - op: replace
+        path: /spec/suspend
+        value: true

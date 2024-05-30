@@ -1,0 +1,27 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: greet-cronjob
+spec:
+  schedule: "* * * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: greeter
+            image: busybox
+            command:
+              - /bin/sh
+              - -c
+              - |
+                echo "greet ${NAME}"
+            env:
+              - name: NAME
+                valueFrom:
+                  configMapKeyRef:
+                    name: greet-config
+                    key: NAME
+          restartPolicy: OnFailure
+
