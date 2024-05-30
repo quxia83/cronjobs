@@ -22,6 +22,5 @@ spec:
                 valueFrom:
                   configMapKeyRef:
                     name: hello-config
-                    key: NAME
           restartPolicy: OnFailure
 

@@ -22,6 +22,5 @@ spec:
                 valueFrom:
                   configMapKeyRef:
                     name: greet-config
-                    key: NAME
           restartPolicy: OnFailure
 
