@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../../base/greet
   - professor
   - student
 
@@ -15,15 +14,3 @@ patches:
       - op: replace
         path: /spec/schedule
         value: "* * * * *"
-  - target:
-      group: batch
-      kind: CronJob
-      name: greet-cronjob
-    patch: |-
-      - op: replace
-        path: /spec/jobTemplate/spec/template/spec/containers/0/command
-        value:
-          - /bin/sh
-          - -c
-          - |
-            echo "dev greet ${NAME}"
