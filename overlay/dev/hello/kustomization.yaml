@@ -9,16 +9,14 @@ resources:
 patches:
   - target:
       group: batch
-      version: v1beta1
       kind: CronJob
       name: hello-cronjob
     patch: |-
       - op: replace
-        path: /spec/suspend
-        value: true
+        path: /spec/schedule
+        value: "* * * * *"
   - target:
       group: batch
-      version: v1beta1
       kind: CronJob
       name: hello-cronjob
     patch: |-

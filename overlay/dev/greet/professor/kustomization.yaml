@@ -13,7 +13,6 @@ configMapGenerator:
 patches:
   - target:
       group: batch
-      version: v1beta1
       kind: CronJob
       name: greet-cronjob
     patch: |-
@@ -26,12 +25,11 @@ patches:
             echo "hello dev, greet ${NAME}, you are ${POSITION}"
   - target:
       group: batch
-      version: v1beta1
       kind: CronJob
       name: greet-cronjob
     patch: |-
       - op: replace
         path: /spec/suspend
-        value: true
+        value: false
 nameSuffix: "-professor"
 
