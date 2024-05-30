@@ -1,0 +1,27 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello-cronjob
+spec:
+  schedule: "* * * * *"
+  suspend: true
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            command:
+              - /bin/sh
+              - -c
+              - |
+                echo "hello ${NAME}"
+            env:
+              - name: NAME
+                valueFrom:
+                  configMapKeyRef:
+                    name: hello-config
+                    key: NAME
+          restartPolicy: OnFailure
+
